@@ -3,14 +3,32 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const productModel = require('../models/products');
 
-function next() {
+
+  function next() {
     return console.log("I am next");
 }
 
 router.get('/', (req, res, next) => {
-    productModel.find().exec().then((result) => {
-        if (result.length<0){
-            res.status(200).json(result);
+    productModel.find()
+    .select('_id name price')
+    .exec()
+    .then((result) => {
+        if (result.length>0){
+            const product = {
+                count: result.length,
+                    products: result.map((item) => {
+                        return {
+                            name: item.name,
+                            price: item.price,
+                            request : {
+                                type: "GET",
+                                url : "http://localhost:3000" + "/products/" + item._id 
+                            }
+                        }
+                    })
+            };
+            
+            res.status(200).json(product);
         }
         else{
             res.status(404).json({
@@ -31,14 +49,20 @@ router.post('/', (req, res, next) => {
     
     product.save().then((result) => {
         res.status(200).json({
-            result
+            message: "Successfully added",
+            name: result.name,
+            price: result.price,
+            _id: result._id,
+            request: {
+                type: 'GET',
+                url: "http://localhost:3000/products/" + result._id
+            }
         });
     }).catch((err) => {
         res.status(500).json({
             err
         });
     });
-    console.log(product);
 
 })
 
@@ -53,7 +77,6 @@ router.patch('/:productID', (req, res, next) => {
                 message:"Invalid id"
             })
         }
-        console.log(result);
     }).catch((err) => {
             res.status(500).json({err}); 
     });

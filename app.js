@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/apiNode')
 
 const productRoute = require('./api/routes/products');
-const orderRoute = require('./api/routes/products');
+const orderRoute = require('./api/routes/orders');
 
 app.use(morgan('dev'));
 app.use(bodyparser.urlencoded({extended:false}));
