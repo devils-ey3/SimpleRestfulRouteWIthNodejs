@@ -14,6 +14,7 @@ const productRoute = require('./api/routes/products');
 const orderRoute = require('./api/routes/orders');
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
 
