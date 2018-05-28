@@ -48,6 +48,26 @@ router.post('/signup', (req, res, next) => {
 
 })
 
+router.post('/login',(req,res,next) => {
+    User.findOne({user:req.body.email},(err,result) => {
+       if (!result){
+            return res.status(500).json({
+                error:"Auth Fail"
+            })
+       }
+       bcrypt.compare(req.body.password, result.password).then((compareResult) => {
+            if (compareResult) {
+                
+            } else {
+                return res.status(500).json({
+                    error:"Auth Fail"
+                })
+            }
+        });
+    })
+       
+})
+
 router.delete('/:userID',(req,res,next) => {
     User.findByIdAndRemove(req.params.userID).then((result) => {
         res.status(200).json({
