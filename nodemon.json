@@ -1,5 +1,6 @@
 {
     "env":{
-        "mongoPass":"kirainhere"
+        "mongoPass":"kirainhere",
+        "JWT_KEY": "kira"
     }
 }
