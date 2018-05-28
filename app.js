@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost/apiNode')
 
 const productRoute = require('./api/routes/products');
 const orderRoute = require('./api/routes/orders');
+const userRoute = require('./api/routes/user');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
@@ -35,6 +36,7 @@ next();
 
 app.use('/products',productRoute);
 app.use('/orders',orderRoute);
+app.use('/users',userRoute);
 
 
 app.use((req, res, next) => {
